@@ -29,7 +29,7 @@ class CustomerRange(Sequence):
             item += len(self)
 
         if not 0 <= item < self.__length:
-            raise IndexError('index out of range!') # for ... in ... 会捕获 IndexError 停止迭代
+            raise IndexError('index out of range!')  # for ... in ... 会捕获 IndexError 停止迭代
 
         return self.__start + item * self.__step
 

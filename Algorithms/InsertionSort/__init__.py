@@ -1,15 +1,22 @@
+"""
+参考: https://www.runoob.com/w3cnote/insertion-sort.html
+"""
+
+
 def insertion_sort(arr):
     """
     插入排序 O(n)
+
+    将大于待排元素的往后挪
     :param arr:
     :return:
     """
 
     for i in range(1, len(arr)):
-        cur = arr[i]
+        cur = arr[i]  # 当前待排元素
         j = i
         while j > 0 and arr[j - 1] > cur:
-            arr[j] = arr[j - 1]
+            arr[j] = arr[j - 1]  # 将大于待排元素的元素往后挪
             j -= 1
 
         arr[j] = cur

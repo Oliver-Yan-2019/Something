@@ -1,6 +1,11 @@
 import ctypes
 
 
+"""
+动态数组 - 比对python的list实现
+"""
+
+
 class DynamicArray(object):
     """动态数组"""
     def __init__(self):

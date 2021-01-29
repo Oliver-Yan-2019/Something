@@ -21,7 +21,7 @@
 * [序列抽象基类](Others/SequenceABC/__init__.py)
 * [通用序列迭代器](Others/SequenceIterator/__init__.py)
 * [多维向量](Others/MultidimensionalVector/__init__.py)
-* [数列 - 等差、等比](Others/Progression/__init__.py)
+* [数列 - 等差、等比、斐波那契](Others/Progression/__init__.py)
 * [凯撒密码](Others/CaesarCipher/__init__.py)
 * [磁盘占用](Others/DiskUsage/__init__.py)
 * [斐波那契数列](Others/Fibonacci/__init__.py)
