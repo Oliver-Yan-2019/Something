@@ -1,4 +1,4 @@
-from SequenceABC import Sequence
+from Others.SequenceABC import Sequence
 
 
 class CustomerRange(Sequence):

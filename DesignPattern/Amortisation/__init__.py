@@ -1,6 +1,6 @@
 import sys
 from time import time
-from DynamicArray import DynamicArray
+from Others.DynamicArray import DynamicArray
 
 
 def array_amortise(n):
