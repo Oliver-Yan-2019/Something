@@ -5,7 +5,7 @@
 
 def insertion_sort(arr):
     """
-    插入排序 O(n)
+    插入排序 O(n) - 双指针实现方式
 
     将大于待排元素的往后挪
     :param arr:
