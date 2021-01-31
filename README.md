@@ -6,6 +6,7 @@
 ### Design Pattern - 设计模式
 * [摊销分析](DesignPattern/Amortisation/__init__.py)
 * [适配器模式](DesignPattern/AdapterPattern/__init__.py)
+* [组合模式](DesignPattern/CompositePattern/__init__.py)
 
 ### Data Structure - 数据结构
 * [栈](DataStructure/Stack/__init__.py)
