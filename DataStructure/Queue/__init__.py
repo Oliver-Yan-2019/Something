@@ -1,6 +1,7 @@
 """
 队列
-插入和删除遵循"先进先出"原则(FIFO), 队头的元素才能访问和删除，队尾才允许插入元素
+
+插入和删除遵循"先进先出"原则(FIFO), 队头的元素才能访问和删除, 队尾才允许插入元素
 """
 
 
@@ -43,7 +44,7 @@ class ArrayQueue(object):
         element = self.__data[self.__front]
 
         self.__data[self.__front] = None
-        self.__front = (self.__front + 1) % len(self.__data)  # 循环使用列表，队头推出一个元素，新的索引需要取模
+        self.__front = (self.__front + 1) % len(self.__data)  # 循环使用列表, 队头推出一个元素, 新的索引需要取模
         self.__size -= 1
 
         if 0 < self.__size < len(self.__data) // 4:  # 当队列的大小小于列表长度的四分之一时
@@ -118,7 +119,7 @@ class ArrayDeque(object):
         element = self.__data[self.__front]
 
         self.__data[self.__front] = None
-        self.__front = (self.__front + 1) % len(self.__data)  # 循环使用列表，队头推出一个元素，新的索引需要取模
+        self.__front = (self.__front + 1) % len(self.__data)  # 循环使用列表, 队头推出一个元素, 新的索引需要取模
         self.__size -= 1
 
         if 0 < self.__size < len(self.__data) // 4:  # 当队列的大小小于列表长度的四分之一时

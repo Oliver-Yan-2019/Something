@@ -1,7 +1,7 @@
 class Progression(object):
     def __init__(self, start=0):
         """
-        构造函数，初始化通用数列实例
+        构造函数, 初始化通用数列实例
         :param start:
         """
 
@@ -30,7 +30,7 @@ class Progression(object):
 class ArithmeticProgression(Progression):
     def __init__(self, increment=1, start=0):
         """
-        构造函数，初始化等差数列实例
+        构造函数, 初始化等差数列实例
         :param increment: 增量
         :param start: 初始值
         """
@@ -45,7 +45,7 @@ class ArithmeticProgression(Progression):
 class GeometricProgression(Progression):
     def __init__(self, base=2, start=1):
         """
-        构造函数，初始化等比数列实例
+        构造函数, 初始化等比数列实例
         :param base: 默认基数
         :param start: 初始值
         """
@@ -60,7 +60,7 @@ class GeometricProgression(Progression):
 class FibonacciProgression(Progression):
     def __init__(self, first=0, second=1):
         """
-        构造函数，初始化斐波那契数列实例
+        构造函数, 初始化斐波那契数列实例
         :param first:
         :param second:
         """

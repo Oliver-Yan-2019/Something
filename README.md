@@ -14,7 +14,10 @@
 
 ### Algorithms - 算法
 #### 排序算法
+* [冒泡排序](Algorithms/BubbleSort/__init__.py)
+* [选择排序](Algorithms/SelectionSort/__init__.py)
 * [插入排序](Algorithms/InsertionSort/__init__.py)
+* [希尔排序](Algorithms/ShellSort/__init__.py)
 
 #### 查找算法
 * [二分查找](Algorithms/BinarySearch/__init__.py)

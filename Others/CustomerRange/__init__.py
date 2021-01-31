@@ -4,7 +4,7 @@ from Others.SequenceABC import Sequence
 class CustomerRange(Sequence):
     def __init__(self, start, stop=None, step=1):
         """
-        构造函数，初始化自定义Range实例
+        构造函数, 初始化自定义Range实例
         :param start: 起始索引
         :param stop: 结束索引
         :param step: 步长

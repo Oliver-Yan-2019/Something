@@ -1,8 +1,8 @@
 class SequenceIterator(object):
     def __init__(self, sequence):
         """
-        构造函数，初始化序列迭代器实例
-        :param sequence: 序列，支持任何序列类型
+        构造函数, 初始化序列迭代器实例
+        :param sequence: 序列, 支持任何序列类型
         """
 
         self.__seq = sequence

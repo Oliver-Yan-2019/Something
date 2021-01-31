@@ -1,5 +1,6 @@
 """
 栈
+
 插入和删除遵循"后进先出"原则(LIFO), 即栈顶
 
 可以用于实现数据的逆置
@@ -16,7 +17,7 @@ class StackEmpty(Exception):
 
 class ArrayStack(object):
     """
-    采用适配器模式，基于python的list类型实现的栈
+    采用适配器模式, 基于python的list类型实现的栈
     """
 
     def __init__(self):

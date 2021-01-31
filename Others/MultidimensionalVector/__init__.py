@@ -1,7 +1,7 @@
 class Vector(object):
     def __init__(self, dimensions):
         """
-        构造函数，初始化n维向量
+        构造函数, 初始化n维向量
         :param dimensions: int 维度
         """
 

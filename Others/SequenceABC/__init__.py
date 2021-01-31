@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 
 
 """
-所有的序列对象都继承自序列抽象基类，这个例子用于学习抽象基类，可以参考 collections.abc 的 Sequence 实现
+所有的序列对象都继承自序列抽象基类, 这个例子用于学习抽象基类, 可以参考 collections.abc 的 Sequence 实现
 """
 
 
