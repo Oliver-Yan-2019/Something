@@ -450,8 +450,8 @@ if __name__ == '__main__':
     def insertion_sort(position_list: PositionalList):
         """
         基于位置列表实现的插入排序
-        :param position_list: 
-        :return: 
+        :param position_list:
+        :return:
         """
 
         if len(position_list) > 1:
