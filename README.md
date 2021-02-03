@@ -11,7 +11,7 @@
 
 ### Data Structure - 数据结构
 * [栈](DataStructure/Stack/__init__.py)
-* [队列, 双端队列](DataStructure/Queue/__init__.py)
+* [队列, 双端队列, 优先级队列](DataStructure/Queue/__init__.py)
 * [链表](DataStructure/Link/__init__.py)
 * [树](DataStructure/Tree/__init__.py)
 
