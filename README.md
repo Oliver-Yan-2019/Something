@@ -4,14 +4,14 @@
 * [Tips](Python/tips.md)
 
 ### Design Pattern - 设计模式
-* [摊销分析](DesignPattern/Amortisation/__init__.py)
-* [适配器模式](DesignPattern/AdapterPattern/__init__.py)
-* [组合模式](DesignPattern/CompositePattern/__init__.py)
-* [模版方法模式]()
+* [摊销分析](DesignPattern/Amortisation/摊销分析.md)
+* [适配器模式](DesignPattern/AdapterPattern/适配器模式.md)
+* [组合模式](DesignPattern/CompositePattern/组合模式.md)
+* [模版方法模式](DesignPattern/TemplateMethodPattern/模版方法模式.md)
 
 ### Data Structure - 数据结构
 * [栈](DataStructure/Stack/__init__.py)
-* [队列、双端队列](DataStructure/Queue/__init__.py)
+* [队列, 双端队列](DataStructure/Queue/__init__.py)
 * [链表](DataStructure/Link/__init__.py)
 * [树](DataStructure/Tree/__init__.py)
 
@@ -31,7 +31,7 @@
 * [序列抽象基类](Others/SequenceABC/__init__.py)
 * [通用序列迭代器](Others/SequenceIterator/__init__.py)
 * [多维向量](Others/MultidimensionalVector/__init__.py)
-* [数列 - 等差、等比、斐波那契](Others/Progression/__init__.py)
+* [数列 - 等差, 等比, 斐波那契](Others/Progression/__init__.py)
 * [凯撒密码](Others/CaesarCipher/__init__.py)
 * [磁盘占用](Others/DiskUsage/__init__.py)
 * [斐波那契数列](Others/Fibonacci/__init__.py)

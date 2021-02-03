@@ -78,7 +78,7 @@ if __name__ == '__main__':
                 if _stack.is_empty():
                     return False
 
-                if right.index(c) != left.index(_stack.pop()):
+                if right.index(c) != left.index(_stack.pop()):  # 在分隔符字典中的索引对不上
                     return False
 
         return _stack.is_empty()
@@ -98,17 +98,17 @@ if __name__ == '__main__':
             if k == -1:
                 return False
 
-            tag = raw[j + 1:k]
+            tag = raw[j + 1:k]  # 提取标签
             if not tag.startswith('/'):
                 _stack.push(tag)
             else:
                 if _stack.is_empty():
                     return False
 
-                if tag[1:] != _stack.pop():
+                if tag[1:] != _stack.pop():  # 标签匹配不上
                     return False
 
-            j = raw.find('<', k + 1)
+            j = raw.find('<', __start=k + 1)  # 从 k + 1 开始找
 
         return _stack.is_empty()
 

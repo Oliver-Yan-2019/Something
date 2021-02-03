@@ -6,6 +6,10 @@ from abc import ABCMeta, abstractmethod
 
 
 class Tree(metaclass=ABCMeta):
+    """
+    所有树的抽象基类
+    """
+
     class Position(metaclass=ABCMeta):
         @abstractmethod
         def element(self):
@@ -131,8 +135,15 @@ class Tree(metaclass=ABCMeta):
 
 
 class BinaryTree(Tree, metaclass=ABCMeta):
+    """
+    二叉树的抽象基类
+    """
+
     def positions(self):
-        return self.inorder()
+        return self.inorder()  # 中序遍历
+        # return self.preorder()  # 先序遍历
+        # return self.postorder()  # 后序遍历
+        # return self.breadth_first()  # 广度优先遍历
 
     def inorder(self):
         if not self.is_empty():
@@ -161,6 +172,12 @@ class BinaryTree(Tree, metaclass=ABCMeta):
         pass
 
     def sibling(self, position):
+        """
+        获取兄弟节点
+        :param position:
+        :return:
+        """
+
         _parent = self.parent(position)
         if _parent is None:
             return None
@@ -172,6 +189,12 @@ class BinaryTree(Tree, metaclass=ABCMeta):
                 return _left
 
     def children(self, position):
+        """
+        遍历子节点
+        :param position:
+        :return:
+        """
+
         _left = self.left(position)
         if _left is not None:
             yield _left
@@ -192,6 +215,7 @@ class LinkBinaryTree(BinaryTree):
 
         def __init__(self, element, parent=None, left=None, right=None):
             self.element = element
+
             self.parent = parent
             self.left = left
             self.right = right
@@ -373,6 +397,10 @@ class EulerTour(object):
 
 
 class BinaryEulerTour(EulerTour):
+    """
+    二叉树欧拉遍历
+    """
+
     def _tour(self, position, depth, path):
         self._hook_pre_visit(position, depth, path)
 
@@ -398,6 +426,10 @@ class BinaryEulerTour(EulerTour):
 
 
 class BinaryLayout(BinaryEulerTour):
+    """
+    二叉树在坐标系的描绘算法
+    """
+
     def __init__(self, tree):
         super(BinaryLayout, self).__init__(tree)
         self.__count = 0

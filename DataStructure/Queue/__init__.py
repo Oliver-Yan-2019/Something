@@ -15,13 +15,13 @@ class QueueEmpty(Exception):
 
 class ArrayQueue(object):
     """
-    普通队列
+    普通队列 - 使用循环列表实现
     """
 
     CAPACITY = 10  # 容量
 
     def __init__(self):
-        self.__data = [None] * ArrayQueue.CAPACITY  # 初始化列表
+        self.__data = [None] * ArrayQueue.CAPACITY  # 初始化容器, 采用循环列表作为容器
         self.__size = 0  # 队列的大小
         self.__front = 0  # 队头在列表中的索引
 
@@ -47,7 +47,7 @@ class ArrayQueue(object):
         self.__front = (self.__front + 1) % len(self.__data)  # 循环使用列表, 队头推出一个元素, 新的索引需要取模
         self.__size -= 1
 
-        if 0 < self.__size < len(self.__data) // 4:  # 当队列的大小小于列表长度的四分之一时
+        if 0 < self.__size < len(self.__data) // 4:  # 当队列的大小小于列表长度的四分之一时, 缩小容器
             self._resize(len(self.__data) // 2)
 
         return element
@@ -56,7 +56,7 @@ class ArrayQueue(object):
         if self.__size == len(self.__data):
             self._resize(2 * len(self.__data))
 
-        _end = (self.__front + self.__size) % len(self.__data)
+        _end = (self.__front + self.__size) % len(self.__data)  # 获取插入位置在容器中的索引
         self.__data[_end] = element
         self.__size += 1
 
@@ -67,7 +67,7 @@ class ArrayQueue(object):
 
         for i in range(self.__size):
             self.__data[i] = _data[_walk_index]
-            _walk_index = (1 + _walk_index) % len(_data)
+            _walk_index = (1 + _walk_index) % len(_data)  # 下一个元素索引, 需要取模
 
         self.__front = 0
 

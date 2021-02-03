@@ -13,11 +13,11 @@ from DataStructure.Stack import ArrayStack
 
 class ListQueue(object):
     """
-    采用适配器模式实现的队列, 更优的实现方式参考ArrayQueue
+    采用适配器模式实现的队列, 更优的实现方式参考 DataStructure.Queue.ArrayQueue
     """
 
     def __init__(self):
-        self.__data = []
+        self.__data = []  # 存储结构
 
     def __len__(self):
         return len(self.__data)
@@ -29,7 +29,7 @@ class ListQueue(object):
         return self.__data[0]
 
     def dequeue(self):
-        return self.__data.pop(0)
+        return self.__data.pop(0)  # 时间复杂度 O(n)
 
     def enqueue(self, element):
         self.__data.append(element)

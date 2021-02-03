@@ -2,18 +2,18 @@
 链表
 
 list的一些明显的缺点:
-1、动态数组的长度可能超过是寄存处数组元素所需的长度
-2、在实时系统中对操作的摊销边界是不可接受的
-3、在一个数组内部做插入和删除的操作, 代价太高
+1, 动态数组的长度可能超过是寄存处数组元素所需的长度
+2, 在实时系统中对操作的摊销边界是不可接受的
+3, 在一个数组内部做插入和删除的操作, 代价太高
 
 数组集中表示, 链表分布表示
 
 几个常见的操作:
-1、遍历链表
-2、指针跳跃
-3、在头部插入元素
-4、在尾部插入元素
-5、删除一个元素(头部)
+1, 遍历链表
+2, 指针跳跃
+3, 在头部插入元素
+4, 在尾部插入元素
+5, 删除一个元素(头部)
 
 单向链表
 不对称性 - 很难从尾部删除一个节点, 因为很难定位删除节点的前驱节点
@@ -75,7 +75,7 @@ class LinkStack(object):
 
         return self.head.element
 
-    def pop(self):
+    def pop(self):  # 对比列表实现 O(1)
         if self.is_empty():
             raise LinkEmpty('stack is empty!')
 
@@ -88,6 +88,10 @@ class LinkStack(object):
 
 
 class LinkQueue(object):
+    """
+    链表实现的队列
+    """
+
     def __init__(self):
         self.head = None
         self.tail = None
@@ -186,7 +190,7 @@ class CircularQueue(object):
 
 
 """
-循环链表
+双向链表
 """
 
 
@@ -207,8 +211,10 @@ class DLink(object):
     def __init__(self):
         self.header = DNode(None, None, None)  # 头哨兵
         self.trailer = DNode(None, None, None)  # 尾哨兵
+
         self.header.next = self.trailer
         self.trailer.prev = self.header
+
         self.size = 0
 
     def __len__(self):
@@ -219,6 +225,7 @@ class DLink(object):
 
     def insert_between(self, element, predecessor, successor):
         _node = DNode(element, predecessor, successor)
+
         predecessor.next = _node
         successor.prev = _node
         self.size += 1
@@ -237,7 +244,9 @@ class DLink(object):
 
 
 class LinkDeque(DLink):
-    """采用双向链表实现的双端队列"""
+    """
+    采用双向链表实现的双端队列
+    """
 
     def first(self):
         if self.is_empty():
@@ -271,7 +280,9 @@ class LinkDeque(DLink):
 
 
 class PositionalList(DLink):
-    """使用双向链表实现的位置列表"""
+    """
+    使用双向链表实现的位置列表
+    """
 
     class Position(object):
         """位置"""
@@ -368,6 +379,13 @@ class PositionalList(DLink):
 
 
 class FavoritesList(object):
+    """
+    访问频率队列
+    两个操作:
+        1, 访问某个节点: 访问数加一, 排序上移
+        2, 获取访问频率最高的k个节点
+    """
+
     class Item(object):
         __slots__ = 'value', 'count'
 
@@ -402,6 +420,12 @@ class FavoritesList(object):
                 self.__data.add_before(walk, self.__data.delete(position))
 
     def access(self, value):
+        """
+        访问某个节点
+        :param value:
+        :return:
+        """
+
         _position = self.__find_position(value)
         if _position is None:
             _position = self.__data.add_last(self.Item(value))
@@ -410,6 +434,12 @@ class FavoritesList(object):
         self.__move_up(_position)
 
     def top(self, k):
+        """
+        获取访问频率最高的k个节点
+        :param k:
+        :return:
+        """
+
         if not 1 <= k <= len(self):
             raise ValueError('illegal value for k!')
 
@@ -421,6 +451,12 @@ class FavoritesList(object):
 
 
 class FavoritesListMTF(FavoritesList):
+    """
+    访问频率列表的启发算法实现
+
+    被访问的节点很可能在最近会被访问, 所以直接放到队头
+    """
+
     def __move_up(self, position):
         if position != self.__data.first():
             self.__data.add_first(self.__data.delete(position))
@@ -457,15 +493,16 @@ if __name__ == '__main__':
         if len(position_list) > 1:
             maker = position_list.first()
             while maker != position_list.last():
-                pivot = position_list.after(maker)
+                pivot = position_list.after(maker)  # 待排区第一个节点
                 value = pivot.element()
-                if value > maker.element():
+                if value > maker.element():  # 待排区第一个节点比当前节点大, 直接放入已排区
                     maker = pivot
                 else:
                     walk = maker
                     while walk != position_list.first() and position_list.before(walk).element() > value:
-                        walk = position_list.before(walk)
+                        walk = position_list.before(walk)  # 遍历已排区, 给待排区第一个节点找到相应位置
 
+                    # 从待排区挪到已排区
                     position_list.delete(pivot)
                     position_list.add_before(walk, value)
 

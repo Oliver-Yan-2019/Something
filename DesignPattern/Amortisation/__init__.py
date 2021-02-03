@@ -4,15 +4,13 @@ from Others.DynamicArray import DynamicArray
 
 
 """
-摊销分析可参考: https://www.cnblogs.com/SeekHit/p/4977678.html 或 http://codingdict.com/article/4859
-
 这里采用摊销分析方法来分析动态数组相关操作的时间复杂度
 
 本项目实现了动态数组 - DynamicArray(当数组已满, 将数组拓展为原来的2倍)
-相关操作有:添加、删除、插入
+相关操作有:添加, 删除, 插入
 有以下结论:
-1、时间复杂度为O(n)
-2、避免使用固定的增量, 时间复杂度为O(n^2)
+1, 时间复杂度为O(n)
+2, 避免使用固定的增量, 时间复杂度为O(n^2)
 """
 
 
@@ -50,6 +48,7 @@ def compute_average(n):
 if __name__ == '__main__':
     # 动态数组
     arr = DynamicArray()
+    arr.append(1)
     arr.append(1)
     arr.append(1)
     arr.append(1)
