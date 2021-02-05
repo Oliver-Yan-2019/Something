@@ -27,6 +27,9 @@ list的一些明显的缺点:
 """
 
 
+from typing import *
+
+
 class LinkEmpty(Exception):
     """
     空链表异常
@@ -36,7 +39,9 @@ class LinkEmpty(Exception):
 
 
 class Node(object):
-    """单向节点"""
+    """
+    单向节点
+    """
 
     __slots__ = 'element', 'next'  # 提高内存利用率
 
@@ -59,23 +64,44 @@ class LinkStack(object):
         self.head = None
         self.size = 0
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        判断是否为空栈
+        :return:
+        """
+
         return self.size == 0
 
-    def push(self, element):
+    def push(self, element: Any):
+        """
+        元素入栈 - O(1)
+        :param element: 元素
+        :return:
+        """
+
         self.head = Node(element, self.head)
         self.size += 1
 
     def top(self):
+        """
+        获取栈顶元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('stack is empty!')
 
         return self.head.element
 
-    def pop(self):  # 对比列表实现 O(1)
+    def pop(self):
+        """
+        弹出栈顶元素 - O(1) - 对比列表实现 O(1)*
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('stack is empty!')
 
@@ -93,23 +119,38 @@ class LinkQueue(object):
     """
 
     def __init__(self):
-        self.head = None
-        self.tail = None
-        self.size = 0
+        self.head = None  # 队头
+        self.tail = None  # 队尾
+        self.size = 0  # 队长
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        是否为空队
+        :return:
+        """
+
         return self.size == 0
 
     def first(self):
+        """
+        获取队头元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
         return self.head.element
 
     def dequeue(self):
+        """
+        弹出队头元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
@@ -123,7 +164,13 @@ class LinkQueue(object):
 
         return _element
 
-    def enqueue(self, element):
+    def enqueue(self, element: Any):
+        """
+        元素入队 - O(1)
+        :param element: 元素
+        :return:
+        """
+
         _node = Node(element, None)
         if self.is_empty():
             self.head = _node
@@ -145,22 +192,37 @@ class CircularQueue(object):
     """
 
     def __init__(self):
-        self.tail = None
-        self.size = 0
+        self.tail = None  # 队尾
+        self.size = 0  # 队长
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        判断是否为空队
+        :return:
+        """
+
         return self.size == 0
 
     def first(self):
+        """
+        获取队头元素
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
         return self.tail.next.element
 
     def dequeue(self):
+        """
+        弹出队头元素
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
@@ -173,7 +235,13 @@ class CircularQueue(object):
         self.size -= 1
         return head.element
 
-    def enqueue(self, element):
+    def enqueue(self, element: Any):
+        """
+        元素入队 - O(1)
+        :param element: 元素
+        :return:
+        """
+
         _node = Node(element, None)
         if self.is_empty():
             _node.next = _node
@@ -185,6 +253,11 @@ class CircularQueue(object):
         self.size += 1
 
     def rotate(self):
+        """
+        元素位置轮换 - O(1)
+        :return:
+        """
+
         if self.size > 0:
             self.tail = self.tail.next
 
@@ -206,7 +279,9 @@ class DNode(object):
 
 
 class DLink(object):
-    """双向链表"""
+    """
+    双向链表
+    """
 
     def __init__(self):
         self.header = DNode(None, None, None)  # 头哨兵
@@ -217,13 +292,26 @@ class DLink(object):
 
         self.size = 0
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        是否为空链表
+        :return:
+        """
+
         return self.size == 0
 
     def insert_between(self, element, predecessor, successor):
+        """
+        在两个节点中间插入元素 - O(1)
+        :param element: 元素
+        :param predecessor: 前驱节点
+        :param successor: 后继节点
+        :return:
+        """
+
         _node = DNode(element, predecessor, successor)
 
         predecessor.next = _node
@@ -232,6 +320,11 @@ class DLink(object):
         return _node
 
     def delete_node(self, node):
+        """
+        删除节点 - O(1)
+        :param node: 节点
+        :return:
+        """
         predecessor = node.prev
         successor = node.next
         predecessor.next = successor
@@ -249,30 +342,61 @@ class LinkDeque(DLink):
     """
 
     def first(self):
+        """
+        获取第一个节点 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
         return self.header.next.element
 
     def last(self):
+        """
+        获取最后一个节点 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
         return self.trailer.prev.element
 
-    def insert_first(self, element):
+    def insert_first(self, element: Any):
+        """
+        从表头插入元素 - O(1)
+        :param element: 元素
+        :return:
+        """
+
         return self.insert_between(element, self.header, self.header.next)
 
-    def insert_last(self, element):
+    def insert_last(self, element: Any):
+        """
+        从表尾插入元素 - O(1)
+        :param element: 元素
+        :return:
+        """
+
         return self.insert_between(element, self.trailer.prev, self.trailer)
 
     def delete_first(self):
+        """
+        删除队(表)头元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
         return self.delete_node(self.header.next)
 
     def delete_last(self):
+        """
+        删除队(表)尾元素 - O(1)
+        :return:
+        """
         if self.is_empty():
             raise LinkEmpty('queue is empty!')
 
@@ -285,7 +409,9 @@ class PositionalList(DLink):
     """
 
     class Position(object):
-        """位置"""
+        """
+        位置
+        """
 
         def __init__(self, container, node):
             self.container = container  # 所属列表容器实例
@@ -294,15 +420,15 @@ class PositionalList(DLink):
         def element(self):
             return self.node.element
 
-        def __eq__(self, other):
+        def __eq__(self, other) -> bool:
             return type(other) is type(self) and other.node is self.node
 
-        def __ne__(self, other):
+        def __ne__(self, other) -> bool:
             return not self == other
 
     def validate(self, position):
         """
-        校验位置有效性并返回指向节点
+        校验位置有效性并返回指向节点 - O(1)
         :param position:
         :return:
         """
@@ -320,7 +446,7 @@ class PositionalList(DLink):
 
     def make_position(self, node):
         """
-        生成节点对应的位置实例
+        生成节点对应的位置实例 - O(1)
         :param node:
         :return:
         """
@@ -331,16 +457,38 @@ class PositionalList(DLink):
             return self.Position(self, node)
 
     def first(self):
+        """
+        获取第一个位置的元素 - n(1)
+        :return:
+        """
+
         return self.make_position(self.header.next)
 
     def last(self):
+        """
+        获取最后一个位置的元素 - n(1)
+        :return:
+        """
+
         return self.make_position(self.trailer.prev)
 
     def before(self, position):
+        """
+        获取前一个元素 - n(1)
+        :param position:
+        :return:
+        """
+
         _node = self.validate(position)
         return self.make_position(_node.prev)
 
     def after(self, position):
+        """
+        获取后一个元素 - n(1)
+        :param position:
+        :return:
+        """
+
         _node = self.validate(position)
         return self.make_position(_node.next)
 

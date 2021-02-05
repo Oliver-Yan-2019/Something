@@ -5,7 +5,7 @@
 """
 
 from abc import ABCMeta, abstractmethod
-from DataStructure.Link import PositionalList
+from typing import *
 
 
 class QueueEmpty(Exception):
@@ -18,7 +18,7 @@ class QueueEmpty(Exception):
 
 class ArrayQueue(object):
     """
-    普通队列 - 使用循环列表实现
+    队列 - 使用循环列表实现
     """
 
     CAPACITY = 10  # 容量
@@ -28,19 +28,34 @@ class ArrayQueue(object):
         self.__size = 0  # 队列的大小
         self.__front = 0  # 队头在列表中的索引
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.__size
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        判断是否为空队列
+        :return:
+        """
+
         return self.__size == 0
 
     def first(self):
+        """
+        获取队头元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('queue is empty!')
 
         return self.__data[self.__front]
 
     def dequeue(self):
+        """
+        队头元素出队 - O(1)*
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('queue is empty!')
 
@@ -55,7 +70,13 @@ class ArrayQueue(object):
 
         return element
 
-    def enqueue(self, element):
+    def enqueue(self, element: Any):
+        """
+        元素入队 - O(1)*
+        :param element: 元素
+        :return:
+        """
+
         if self.__size == len(self.__data):
             self._resize(2 * len(self.__data))
 
@@ -63,7 +84,13 @@ class ArrayQueue(object):
         self.__data[_end] = element
         self.__size += 1
 
-    def _resize(self, capacity):
+    def _resize(self, capacity: int):
+        """
+        循环数组动态调整大小 - O(n)
+        :param capacity: 容量
+        :return:
+        """
+
         _data = self.__data
         _walk_index = self.__front
         self.__data = [None] * capacity
@@ -87,26 +114,47 @@ class ArrayDeque(object):
         self.__size = 0  # 队列的大小
         self.__front = 0  # 队头在列表中的索引
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.__size
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        判断是否为空队列
+        :return:
+        """
+
         return self.__size == 0
 
     def first(self):
+        """
+        获取队头元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('queue is empty!')
 
         return self.__data[self.__front]
 
     def last(self):
+        """
+        获取队尾元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('queue is empty!')
 
         _back = (self.__front + self.__size - 1) % len(self.__data)
-        return self.__data
+        return self.__data[_back]
 
-    def add_first(self, element):
+    def add_first(self, element: Any):
+        """
+        元素从队头入队 - O(1)*
+        :param element: 元素
+        :return:
+        """
+
         if self.__size == len(self.__data):
             self._resize(2 * len(self.__data))
 
@@ -116,6 +164,11 @@ class ArrayDeque(object):
         self.__size += 1
 
     def delete_first(self):
+        """
+        队头元素出队 - O(1)*
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('queue is empty!')
 
@@ -130,7 +183,13 @@ class ArrayDeque(object):
 
         return element
 
-    def add_last(self, element):
+    def add_last(self, element: Any):
+        """
+        元素从队尾入队 - O(1)*
+        :param element: 元素
+        :return:
+        """
+
         if self.__size == len(self.__data):
             self._resize(2 * len(self.__data))
 
@@ -139,6 +198,11 @@ class ArrayDeque(object):
         self.__size += 1
 
     def delete_last(self):
+        """
+        队尾元素出队 - O(1)*
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('queue is empty!')
 
@@ -153,7 +217,13 @@ class ArrayDeque(object):
 
         return element
 
-    def _resize(self, capacity):
+    def _resize(self, capacity: int):
+        """
+        循环数组动态调整大小 - O(n)
+        :param capacity: 容量
+        :return:
+        """
+
         _data = self.__data
         _walk_index = self.__front
         self.__data = [None] * capacity
@@ -166,32 +236,52 @@ class ArrayDeque(object):
 
 
 class PriorityQueueBase(object, metaclass=ABCMeta):
+    """
+    优先级队列抽象基类
+    """
+
     class Item(object):
         __slots__ = 'key', 'value'
 
-        def __init__(self, key, value):
-            self.key = key
-            self.value = value
+        def __init__(self, key: Any, value: Any):
+            self.key = key  # 键
+            self.value = value  # 值
 
-        def __lt__(self, other):
+        def __lt__(self, other) -> bool:
             return self.key < other.key
 
     @abstractmethod
-    def __len__(self):
+    def __len__(self) -> int:
         pass
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """
+        判断是否为空队列
+        :return:
+        """
+
         return len(self) == 0
 
 
 class UnsortedPriorityQueue(PriorityQueueBase):
-    def __init__(self):
-        self.__data = PositionalList()
+    """
+    未排序优先级队列
+    """
 
-    def __len__(self):
+    def __init__(self):
+        from DataStructure.Link import PositionalList
+
+        self.__data = PositionalList()  # 使用位置列表作为队列容器
+
+    def __len__(self) -> int:
         return len(self.__data)
 
     def __find_min(self):
+        """
+        获取优先级最高(大小最小)的元素 - O(n)
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('priority queue is empty!')
 
@@ -205,31 +295,61 @@ class UnsortedPriorityQueue(PriorityQueueBase):
 
         return _small
 
-    def add(self, key, value):
+    def add(self, key: Any, value: Any):
+        """
+        元素入队 - 不排序 - O(1)
+        :param key: 键
+        :param value: 值
+        :return:
+        """
+
         self.__data.add_last(self.Item(key, value))
 
     def min(self):
+        """
+        获取优先级最高(大小最小)的元素 - O(n)
+        :return:
+        """
+
         _position = self.__find_min()
         _item = _position.element()
         return _item.key, _item.value
 
     def remove_min(self):
+        """
+        优先级最高(大小最小)的元素出队 - O(n)
+        :return:
+        """
+
         _position = self.__find_min()
         _item = self.__data.delete(_position)
         return _item.key, _item.value
 
 
 class SortedPriorityQueue(PriorityQueueBase):
-    def __init__(self):
-        self.__data = PositionalList()
+    """
+    已排序优先级队列
+    """
 
-    def __len__(self):
+    def __init__(self):
+        from DataStructure.Link import PositionalList
+
+        self.__data = PositionalList()  # 使用位置列表作为队列的容器
+
+    def __len__(self) -> int:
         return len(self.__data)
 
-    def add(self, key, value):
+    def add(self, key: Any, value: Any):
+        """
+        元素入队 - 插入排序 - O(n)
+        :param key: 键
+        :param value: 值
+        :return:
+        """
+
         _item = self.Item(key, value)
         _walk = self.__data.first()
-        while _walk is not None and _walk.element() < _item:
+        while _walk is not None and _walk.element() > _item:
             _walk = self.__data.after(_walk)
 
         if _walk is None:
@@ -238,6 +358,11 @@ class SortedPriorityQueue(PriorityQueueBase):
             self.__data.add_after(_walk, _item)
 
     def min(self):
+        """
+        获取优先级最高(大小最小)的元素 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('priority queue is empty!')
 
@@ -246,9 +371,56 @@ class SortedPriorityQueue(PriorityQueueBase):
         return _item.key, _item.value
 
     def remove_min(self):
+        """
+        优先级最高(大小最小)的元素出队 - O(1)
+        :return:
+        """
+
         if self.is_empty():
             raise QueueEmpty('priority queue is empty!')
 
-        _position = self.__data.delete(self.__data.first())
-        _item = _position.element()
+        _item = self.__data.delete(self.__data.first())
         return _item.key, _item.value
+
+
+if __name__ == '__main__':
+    _array_queue = ArrayQueue()
+    print(_array_queue.is_empty())
+    _array_queue.enqueue(1)
+    _array_queue.enqueue(2)
+    print(_array_queue.first())
+    print(_array_queue.is_empty())
+    _array_queue.dequeue()
+    _array_queue.dequeue()
+    print(_array_queue.is_empty())
+
+    _array_deque = ArrayDeque()
+    print(_array_deque.is_empty())
+    _array_deque.add_first(1)
+    _array_deque.add_last(2)
+    print(_array_deque.first())
+    print(_array_deque.last())
+    print(_array_deque.is_empty())
+    _array_deque.delete_first()
+    _array_deque.delete_last()
+    print(_array_deque.is_empty())
+
+    _unsorted_priority_queue = UnsortedPriorityQueue()
+    print(_unsorted_priority_queue.is_empty())
+    _unsorted_priority_queue.add(1, 1)
+    _unsorted_priority_queue.add(2, 2)
+    print(_unsorted_priority_queue.min())
+    print(_unsorted_priority_queue.is_empty())
+    _unsorted_priority_queue.remove_min()
+    _unsorted_priority_queue.remove_min()
+    print(_unsorted_priority_queue.is_empty())
+
+    _sorted_priority_queue = SortedPriorityQueue()
+    print(_sorted_priority_queue.is_empty())
+    _sorted_priority_queue.add(1, 1)
+    _sorted_priority_queue.add(2, 2)
+    print(_sorted_priority_queue.min())
+    print(_sorted_priority_queue.is_empty())
+    _sorted_priority_queue.remove_min()
+    _sorted_priority_queue.remove_min()
+    print(_sorted_priority_queue.is_empty())

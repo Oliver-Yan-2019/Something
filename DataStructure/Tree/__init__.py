@@ -49,6 +49,12 @@ class Tree(metaclass=ABCMeta):
                 yield position
 
     def __subtree_preorder(self, position):
+        """
+        先序遍历 - 递归实现
+        :param position:
+        :return:
+        """
+
         yield position
         for _child_position in self.children(position):
             for _c_p in self.__subtree_preorder(_child_position):
@@ -60,6 +66,12 @@ class Tree(metaclass=ABCMeta):
                 yield position
 
     def __subtree_postorder(self, position):
+        """
+        后序遍历 - 递归实现
+        :param position:
+        :return:
+        """
+
         for _child_position in self.children(position):
             for _c_p in self.__subtree_postorder(_child_position):
                 yield _c_p
@@ -67,6 +79,11 @@ class Tree(metaclass=ABCMeta):
         yield position
 
     def breadth_first(self):
+        """
+        广度优先遍历
+        :return:
+        """
+
         from DataStructure.Link import LinkQueue
 
         if not self.is_empty():
