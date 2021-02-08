@@ -14,6 +14,7 @@
 * [队列, 双端队列, 优先级队列](DataStructure/Queue/__init__.py)
 * [链表](DataStructure/Link/__init__.py)
 * [树](DataStructure/Tree/__init__.py)
+* [映射, 哈希表和跳跃表](DataStructure/Mapping/__init__.py)
 
 ### Algorithms - 算法
 #### 排序算法
