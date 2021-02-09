@@ -248,7 +248,7 @@ class LinkBinaryTree(BinaryTree):
         def __eq__(self, other):
             return type(other) is type(self) and other.node is self.node
 
-    def __validate(self, position):
+    def validate(self, position):
         if not isinstance(position, self.Position):
             raise TypeError('position must be proper Position type!')
 
@@ -261,7 +261,7 @@ class LinkBinaryTree(BinaryTree):
         return position.node
 
     def __make_position(self, node):
-        return self.Position(self, node)
+        return self.Position(self, node) if node is not None else None
 
     def __init__(self):
         self.root_node = None
@@ -274,19 +274,19 @@ class LinkBinaryTree(BinaryTree):
         return self.__make_position(self.root_node)
 
     def parent(self, position):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         return self.__make_position(_node.parent)
 
     def left(self, position):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         return self.__make_position(_node.left)
 
     def right(self, position):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         return self.__make_position(_node.right)
 
     def num_children(self, position):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         _count = 0
         if _node.left is not None:
             _count += 1
@@ -305,7 +305,7 @@ class LinkBinaryTree(BinaryTree):
         return self.__make_position(self.root_node)
 
     def add_left(self, position, element):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         if _node.left is not None:
             raise ValueError('left child exists!')
 
@@ -314,7 +314,7 @@ class LinkBinaryTree(BinaryTree):
         return self.__make_position(_node.left)
 
     def add_right(self, position, element):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         if _node.right is not None:
             raise ValueError('right child exists!')
 
@@ -323,12 +323,12 @@ class LinkBinaryTree(BinaryTree):
         return self.__make_position(_node.right)
 
     def replace(self, position, element):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         _old_element, _node.element = _node.element, element
         return _old_element
 
     def delete(self, position):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         if self.num_children(position) == 2:
             raise ValueError('position has two children!')
 
@@ -350,7 +350,7 @@ class LinkBinaryTree(BinaryTree):
             return _node.element
 
     def attach(self, position, tree_1, tree_2):
-        _node = self.__validate(position)
+        _node = self.validate(position)
         if not self.is_leaf(position):
             raise ValueError('position must be leaf!')
 
