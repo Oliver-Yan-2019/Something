@@ -1,8 +1,4 @@
-## 关于编程的一些小玩意 - Python实现
-### Python笔记
-* [基础知识](Python/foundation.md)
-* [Tips](Python/tips.md)
-
+## Something about Coding - 关于编程的一些小玩意
 ### Design Pattern - 设计模式
 * [摊销分析](DesignPattern/Amortisation/摊销分析.md)
 * [适配器模式](DesignPattern/AdapterPattern/适配器模式.md)
@@ -26,6 +22,10 @@
 
 #### 查找算法
 * [二分查找](Algorithms/BinarySearch/__init__.py)
+
+### Python笔记
+* [基础知识](Python/foundation.md)
+* [Tips](Python/tips.md)
 
 ###  Others - 其他
 * [自定义Range](Others/CustomerRange/__init__.py)
