@@ -34,7 +34,7 @@ class HeapPriorityQueue(PriorityQueueBase):
 
     @staticmethod
     def left(index):
-        return 1 * index + 1
+        return 2 * index + 1
 
     @staticmethod
     def right(index):
@@ -168,3 +168,13 @@ if __name__ == '__main__':
         for index in range(_length):
             _, value = _pq.remove_min()
             positional_list.add_last(value)
+
+
+    _position_list = PositionalList()
+    _position_list.add_first(1)
+    _position_list.add_first(5)
+    _position_list.add_first(4)
+    _position_list.add_first(3)
+    positional_list_sort(_position_list)
+    for i in _position_list:
+        print(i)

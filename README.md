@@ -19,6 +19,12 @@
 * [选择排序](Algorithms/SelectionSort/__init__.py)
 * [插入排序](Algorithms/InsertionSort/__init__.py)
 * [希尔排序](Algorithms/ShellSort/__init__.py)
+* [堆排序](Algorithms/HeapSort/__init__.py)
+* [归并排序](Algorithms/MergeSort/__init__.py)
+* [快速排序](Algorithms/QuickSort/__init__.py)
+* [桶排序](Algorithms/BucketSort/__init__.py)
+* [基数排序](Algorithms/RadixSort/__init__.py)
+* [计数排序](Algorithms/CountingSort/__init__.py)
 
 #### 查找算法
 * [二分查找](Algorithms/BinarySearch/__init__.py)

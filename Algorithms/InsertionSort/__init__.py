@@ -10,7 +10,9 @@
 
 def insertion_sort(arr):
     """
-    插入排序 O(n^2)
+    插入排序
+    O(n^2) -> O(n + m)
+    m是逆序元素的个数
     :param arr:
     :return:
     """
