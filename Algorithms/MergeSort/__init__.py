@@ -126,3 +126,35 @@ if __name__ == '__main__':
     [_l.enqueue(i) for i in [85, 24, 63, 45, 17, 31, 96, 50]]
     LinkedQueueMergeSort.merge_sort(_l)
     print([_l.dequeue() for _ in range(len(_l))])
+
+    def decorated_merge_sort(data, key=None):
+        """
+        装饰 - 排序 - 取消 设计模式
+        :param data:
+        :param key:
+        :return:
+        """
+
+        class Item(object):
+            __slots__ = 'key', 'value'
+
+            def __init__(self, k, v):
+                self.key = k  # 键
+                self.value = v  # 值
+
+            def __lt__(self, other) -> bool:
+                return self.key < other.key
+
+        if key is not None:
+            for i in range(len(data)):
+                data[i] = Item(key(data[i]), data[i])
+
+        IterativeMergeSort.merge_sort(data)
+        if key is not None:
+            for i in range(len(data)):
+                data[i] = data[i].value
+
+    _l = [85, 24, 63, 45, 17, 31, 96, 50]
+    print(_l)
+    decorated_merge_sort(_l, key=lambda x: x)
+    print(_l)

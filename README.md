@@ -26,8 +26,16 @@
 * [基数排序](Algorithms/RadixSort/__init__.py)
 * [计数排序](Algorithms/CountingSort/__init__.py)
 
-#### 查找算法
+#### 查找&选择算法
 * [二分查找](Algorithms/BinarySearch/__init__.py)
+* [随机快速选择](Algorithms/QuickSelect/__init__.py)
+
+#### 动态规划算法
+* [矩阵链乘法](Algorithms/MatrixChainMultiply/__init__.py)
+* [LCS](Algorithms/LCS/__init__.py)
+
+#### 文本压缩和贪心算法
+* [霍夫曼算法](Algorithms/Huffman/__init__.py)
 
 ### Python笔记
 * [基础知识](Python/foundation.md)
@@ -45,3 +53,4 @@
 * [斐波那契数列](Others/Fibonacci/__init__.py)
 * [序列倒置](Others/SequenceReverse/__init__.py)
 * [字符串拼接算法比较](Others/StringAppendAnalyse/__init__.py)
+* [穷举法实现字符串匹配算法](Others/StringMatch/__init__.py)
