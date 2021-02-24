@@ -1,18 +1,13 @@
 ## Something about Coding - 关于编程的一些小玩意
-### Design Pattern - 设计模式
-* [摊销分析](DesignPattern/Amortisation/摊销分析.md)
-* [适配器模式](DesignPattern/AdapterPattern/适配器模式.md)
-* [组合模式](DesignPattern/CompositePattern/组合模式.md)
-* [模版方法模式](DesignPattern/TemplateMethodPattern/模版方法模式.md)
-
 ### Data Structure - 数据结构
-* [栈](DataStructure/Stack/__init__.py)
-* [队列, 双端队列, 优先级队列](DataStructure/Queue/__init__.py)
-* [链表](DataStructure/Link/__init__.py)
-* [树](DataStructure/Tree/__init__.py)
-* [映射, 哈希表和跳跃表](DataStructure/Mapping/__init__.py)
-* [搜索树](DataStructure/__init__.py)
-* [图](DataStructure/Graph/__init__.py)
+* [动态数组](DataStructure/DynamicArray/动态数组)
+* [链表](DataStructure/Link/链表)
+* [栈](DataStructure/Stack/栈)
+* [队列, 双端队列, 优先级队列](DataStructure/Queue/队列.md)
+* [树](DataStructure/Tree/树.md)
+* [映射, 哈希表和跳跃表](DataStructure/Mapping/映射、哈希表和跳跃表.md)
+* [搜索树](DataStructure/SearchTree/搜索树.md)
+* [图](DataStructure/Graph/图.md)
 
 ### Algorithms - 算法
 #### 排序算法
@@ -42,9 +37,14 @@
 * [基础知识](Python/foundation.md)
 * [Tips](Python/tips.md)
 
+### Design Pattern - 设计模式
+* [摊销分析](DesignPattern/Amortisation/摊销分析.md)
+* [适配器模式](DesignPattern/AdapterPattern/适配器模式.md)
+* [组合模式](DesignPattern/CompositePattern/组合模式.md)
+* [模版方法模式](DesignPattern/TemplateMethodPattern/模版方法模式.md)
+
 ###  Others - 其他
 * [自定义Range](Others/CustomerRange/__init__.py)
-* [动态数组 - list的实现原理](Others/DynamicArray/__init__.py)
 * [序列抽象基类](Others/SequenceABC/__init__.py)
 * [通用序列迭代器](Others/SequenceIterator/__init__.py)
 * [多维向量](Others/MultidimensionalVector/__init__.py)

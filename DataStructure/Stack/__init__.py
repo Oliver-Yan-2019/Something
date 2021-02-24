@@ -8,6 +8,7 @@
 
 
 from typing import *
+from DataStructure.Link import Node, LinkEmpty
 
 
 class StackEmpty(Exception):
@@ -67,6 +68,64 @@ class ArrayStack(object):
             raise StackEmpty('stack is empty!')
 
         return self.__data.pop()
+
+
+class LinkStack(object):
+    """
+    使用链表实现的栈
+    """
+
+    def __init__(self):
+        self.head = None
+        self.size = 0
+
+    def __len__(self) -> int:
+        return self.size
+
+    def is_empty(self) -> bool:
+        """
+        判断是否为空栈
+        :return:
+        """
+
+        return self.size == 0
+
+    def push(self, element: Any):
+        """
+        元素入栈 - O(1)
+        :param element: 元素
+        :return:
+        """
+
+        self.head = Node(element, self.head)
+        self.size += 1
+
+    def top(self):
+        """
+        获取栈顶元素 - O(1)
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('stack is empty!')
+
+        return self.head.element
+
+    def pop(self):
+        """
+        弹出栈顶元素 - O(1) - 对比列表实现 O(1)*
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('stack is empty!')
+
+        _element = self.head.element
+
+        self.head = self.head.next
+        self.size -= 1
+
+        return _element
 
 
 def reverse_file(filename: Text):

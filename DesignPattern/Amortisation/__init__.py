@@ -1,6 +1,6 @@
 import sys
 from time import time
-from Others.DynamicArray import DynamicArray
+from DataStructure.DynamicArray import DynamicArray
 
 
 """

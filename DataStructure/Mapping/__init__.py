@@ -72,6 +72,12 @@ class HashMapBase(MapBase, metaclass=ABCMeta):
         self.__shift = randrange(prime)
 
     def hash_function(self, key):
+        """
+        MAD
+        :param key:
+        :return:
+        """
+
         return (hash(key) * self.__scale + self.__shift) % self.__prime % len(self._table)
 
     def __len__(self):

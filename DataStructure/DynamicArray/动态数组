@@ -1,0 +1,47 @@
+## 动态数组
+### 数组 array
+> 数组是一种常见的线性结构, 在python中对应array模块 \
+> 只能存储数值和字符, 是一种连续存储同一数据类型的数据结构 \
+> array是一种**紧凑数组**.
+>
+> array模块的使用请参考: \
+> [https://docs.python.org/zh-cn/3/library/array.html](https://docs.python.org/zh-cn/3/library/array.html)
+>
+> numpy.array模块的使用请参考: \
+> [https://numpy.org/doc/stable/reference/arrays.html](https://numpy.org/doc/stable/reference/arrays.html)
+
+### 列表 list
+> python中的list, 和C++中的vector很相似, 但是list是一种**引用数组**.
+> cpython实现参考: \
+> [https://github.com/python/cpython/blob/master/Objects/listobject.c](https://github.com/python/cpython/blob/master/Objects/listobject.c)
+
+操作                                  | 平均时间复杂度 |
+--------------------------------------|----------------|
+len(list)                             | O(1)           |
+list[index]                           | O(1)           |
+list[index] = value                   | O(1)*          |
+list.count(value)                     | O(n)           |
+list.index(value)                     | O(k + 1)       |
+value in list                         | O(k + 1)       |
+list1 == list2                        | O(k + 1)       |
+list1 + list2                         | O(n1 + n2)     |
+list[i:j]                             | O(j - i + 1)   |
+N * list                              | O(Nn)          |
+list.append(value)                    | O(1)*          |
+list.insert(i, value)                 | O(n - i + 1)*  |
+list.pop()                            | O(1)*          |
+list.pop(index)                       | O(n - index)*  |
+del list[index]                       | O(n - index)*  |
+list.remove(value)                    | O(n)*          |
+list.extend(list1)                    | O(n1)*         |
+list += list1                         | O(n1)*         |
+list.reverse()                        | O(n)           |
+list.sort()                           | O(n *log n)           |
+
+注: * 表示摊销, k = min(n1, n2)
+
+### 动态数组 dynamic array
+> list是动态数组的一种高度优化的实现, 以下给出动态数组的简单实现.
+> 
+> 代码参考: \
+> [https://github.com/Oliver-Yan-2019/Something/blob/main/DataStructure/DynamicArray/__init__.py](https://github.com/Oliver-Yan-2019/Something/blob/main/DataStructure/DynamicArray/__init__.py)

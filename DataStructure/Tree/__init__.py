@@ -84,7 +84,7 @@ class Tree(metaclass=ABCMeta):
         :return:
         """
 
-        from DataStructure.Link import LinkQueue
+        from DataStructure.Queue import LinkQueue
 
         if not self.is_empty():
             _fringe = LinkQueue()

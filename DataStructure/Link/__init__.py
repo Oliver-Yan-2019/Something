@@ -27,9 +27,6 @@ list的一些明显的缺点:
 """
 
 
-from typing import *
-
-
 class LinkEmpty(Exception):
     """
     空链表异常
@@ -45,226 +42,168 @@ class Node(object):
 
     __slots__ = 'element', 'next'  # 提高内存利用率
 
-    def __init__(self, element, next_):
+    def __init__(self, element, next_=None):
         self.element = element
         self.next = next_
 
+    def __str__(self):
+        return f'<Node: element: {self.element}, next={self.next.element if self.next else None}>'
 
-"""
-单向链表
-"""
+    __repr__ = __str__
 
 
-class LinkStack(object):
+class Link(object):
+    """单链表
+    >>> _link = Link(10)
+    >>> _link.append(1)
+    >>> _link.append(1)
+    >>> _link.append(1)
+    >>> _link.append(1)
+    >>> _link.append(1)
+    >>> len(_link)
+    5
+    >>> _link.append_left(2)
+    >>> len(_link)
+    6
+    >>> for e in _link: print(e)
+    2
+    1
+    1
+    1
+    1
+    1
+    >>> for e in _link.iter_node(): print(e)
+    <Node: element: 2, next=1>
+    <Node: element: 1, next=1>
+    <Node: element: 1, next=1>
+    <Node: element: 1, next=1>
+    <Node: element: 1, next=1>
+    <Node: element: 1, next=None>
+    >>> _link.remove(1)
+    >>> _link.remove(3)
+    -1
+    >>> _link.find(2)
+    0
+    >>> _link.reverse()
+    >>> _link.popleft()
+    1
+    >>> _link.reverse()
+    >>> _link.popleft()
+    2
+    >>> _link.clear()
     """
-    使用链表实现的栈
-    """
 
-    def __init__(self):
-        self.head = None
+    def __init__(self, maxsize=None):
+        self.maxsize = maxsize  # 容量
+        self.header = Node(None)  # 头哨兵
+        self.tail = None  # 尾节点
+        self.size = 0  # 实际节点数
+
+    def __len__(self):
+        return self.size
+
+    def append(self, element):    # O(1)
+        if self.maxsize is not None and len(self) >= self.maxsize:
+            raise Exception('Link is full!')
+
+        _node = Node(element)
+        if self.tail is None:
+            self.header.next = _node
+        else:
+            self.tail.next = _node
+
+        self.tail = _node
+        self.size += 1
+
+    def append_left(self, element):
+        if self.maxsize is not None and len(self) >= self.maxsize:
+            raise Exception('Link is full!')
+
+        _node = Node(element)
+        if self.tail is None:
+            self.header.next = _node
+            self.tail = _node
+
+        _node.next, self.header.next = self.header.next, _node
+        self.size += 1
+
+    def __iter__(self):
+        for node in self.iter_node():
+            yield node.element
+
+    def iter_node(self):
+        _cur_node = self.header.next
+        while _cur_node is not self.tail:    # 从第一个节点开始遍历
+            yield _cur_node
+
+            _cur_node = _cur_node.next    # 移动到下一个节点
+
+        if _cur_node is not None:
+            yield _cur_node
+
+    def remove(self, element):    # O(n)
+        _prev_node = self.header
+        for _cur_node in self.iter_node():
+            if _cur_node.element == element:
+                _prev_node.next = _cur_node.next
+                if _cur_node is self.tail:
+                    self.tail = _prev_node
+
+                del _cur_node
+                self.size -= 1
+                return
+            else:
+                _prev_node = _cur_node
+
+        return -1
+
+    def find(self, element):    # O(n)
+        _index = 0
+        for _element in self:
+            if _element == element:
+                return _index
+
+            _index += 1
+
+        return -1    # 没找到
+
+    def popleft(self):    # O(1)
+        if self.header.next is None:
+            raise Exception('pop from empty Link!')
+
+        _head = self.header.next
+        self.header.next = _head.next
+        self.size -= 1
+        _element = _head.element
+
+        if self.tail is _head:
+            self.tail = None
+
+        del _head
+        return _element
+
+    def clear(self):
+        for _node in self.iter_node():
+            del _node
+
+        self.header.next = None
         self.size = 0
+        self.tail = None
 
-    def __len__(self) -> int:
-        return self.size
+    def reverse(self):
+        _cur_node = self.header.next
+        self.tail = _cur_node
+        _prev_node = None
 
-    def is_empty(self) -> bool:
-        """
-        判断是否为空栈
-        :return:
-        """
+        while _cur_node:
+            _next_node = _cur_node.next
+            _cur_node.next = _prev_node
 
-        return self.size == 0
+            if _next_node is None:
+                self.header.next = _cur_node
 
-    def push(self, element: Any):
-        """
-        元素入栈 - O(1)
-        :param element: 元素
-        :return:
-        """
-
-        self.head = Node(element, self.head)
-        self.size += 1
-
-    def top(self):
-        """
-        获取栈顶元素 - O(1)
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('stack is empty!')
-
-        return self.head.element
-
-    def pop(self):
-        """
-        弹出栈顶元素 - O(1) - 对比列表实现 O(1)*
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('stack is empty!')
-
-        _element = self.head.element
-
-        self.head = self.head.next
-        self.size -= 1
-
-        return _element
-
-
-class LinkQueue(object):
-    """
-    链表实现的队列
-    """
-
-    def __init__(self):
-        self.head = None  # 队头
-        self.tail = None  # 队尾
-        self.size = 0  # 队长
-
-    def __len__(self) -> int:
-        return self.size
-
-    def is_empty(self) -> bool:
-        """
-        是否为空队
-        :return:
-        """
-
-        return self.size == 0
-
-    def first(self):
-        """
-        获取队头元素 - O(1)
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        return self.head.element
-
-    def dequeue(self):
-        """
-        弹出队头元素 - O(1)
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        _element = self.head.element
-
-        self.head = self.head.next
-        self.size -= 1
-
-        if self.is_empty():
-            self.tail = None
-
-        return _element
-
-    def enqueue(self, element: Any):
-        """
-        元素入队 - O(1)
-        :param element: 元素
-        :return:
-        """
-
-        _node = Node(element, None)
-        if self.is_empty():
-            self.head = _node
-        else:
-            self.tail.next = _node
-
-        self.tail = _node
-        self.size += 1
-
-
-"""
-循环链表
-"""
-
-
-class CircularQueue(object):
-    """
-    使用循环链表实现的循环队列
-    """
-
-    def __init__(self):
-        self.tail = None  # 队尾
-        self.size = 0  # 队长
-
-    def __len__(self) -> int:
-        return self.size
-
-    def is_empty(self) -> bool:
-        """
-        判断是否为空队
-        :return:
-        """
-
-        return self.size == 0
-
-    def first(self):
-        """
-        获取队头元素
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        return self.tail.next.element
-
-    def dequeue(self):
-        """
-        弹出队头元素
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        head = self.tail.next
-        if self.size == 1:
-            self.tail = None
-        else:
-            self.tail.next = head.next
-
-        self.size -= 1
-        return head.element
-
-    def enqueue(self, element: Any):
-        """
-        元素入队 - O(1)
-        :param element: 元素
-        :return:
-        """
-
-        _node = Node(element, None)
-        if self.is_empty():
-            _node.next = _node
-        else:
-            _node.next = self.tail.next
-            self.tail.next = _node
-
-        self.tail = _node
-        self.size += 1
-
-    def rotate(self):
-        """
-        元素位置轮换 - O(1)
-        :return:
-        """
-
-        if self.size > 0:
-            self.tail = self.tail.next
-
-
-"""
-双向链表
-"""
+            _prev_node = _cur_node
+            _cur_node = _next_node
 
 
 class DNode(object):
@@ -279,8 +218,8 @@ class DNode(object):
 
 
 class DLink(object):
-    """
-    双向链表
+    """双向链表基类
+
     """
 
     def __init__(self):
@@ -325,6 +264,7 @@ class DLink(object):
         :param node: 节点
         :return:
         """
+
         predecessor = node.prev
         successor = node.next
         predecessor.next = successor
@@ -334,73 +274,6 @@ class DLink(object):
         element = node.element
         node.next = node.prev = node.element = None  # 节点回收
         return element
-
-
-class LinkDeque(DLink):
-    """
-    采用双向链表实现的双端队列
-    """
-
-    def first(self):
-        """
-        获取第一个节点 - O(1)
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        return self.header.next.element
-
-    def last(self):
-        """
-        获取最后一个节点 - O(1)
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        return self.trailer.prev.element
-
-    def insert_first(self, element: Any):
-        """
-        从表头插入元素 - O(1)
-        :param element: 元素
-        :return:
-        """
-
-        return self.insert_between(element, self.header, self.header.next)
-
-    def insert_last(self, element: Any):
-        """
-        从表尾插入元素 - O(1)
-        :param element: 元素
-        :return:
-        """
-
-        return self.insert_between(element, self.trailer.prev, self.trailer)
-
-    def delete_first(self):
-        """
-        删除队(表)头元素 - O(1)
-        :return:
-        """
-
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        return self.delete_node(self.header.next)
-
-    def delete_last(self):
-        """
-        删除队(表)尾元素 - O(1)
-        :return:
-        """
-        if self.is_empty():
-            raise LinkEmpty('queue is empty!')
-
-        return self.delete_node(self.trailer.prev)
 
 
 class PositionalList(DLink):
@@ -666,3 +539,6 @@ if __name__ == '__main__':
     print(f'{[i for i in _position_list]}')
     insertion_sort(_position_list)
     print(f'{[i for i in _position_list]}')
+
+    import doctest
+    doctest.testmod()

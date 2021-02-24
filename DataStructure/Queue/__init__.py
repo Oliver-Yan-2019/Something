@@ -6,6 +6,7 @@
 
 from abc import ABCMeta, abstractmethod
 from typing import *
+from DataStructure.Link import Node, LinkEmpty, DLink
 
 
 class QueueEmpty(Exception):
@@ -100,6 +101,74 @@ class ArrayQueue(object):
             _walk_index = (1 + _walk_index) % len(_data)  # 下一个元素索引, 需要取模
 
         self.__front = 0
+
+
+class LinkQueue(object):
+    """
+    链表实现的队列
+    """
+
+    def __init__(self):
+        self.head = None  # 队头
+        self.tail = None  # 队尾
+        self.size = 0  # 队长
+
+    def __len__(self) -> int:
+        return self.size
+
+    def is_empty(self) -> bool:
+        """
+        是否为空队
+        :return:
+        """
+
+        return self.size == 0
+
+    def first(self):
+        """
+        获取队头元素 - O(1)
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        return self.head.element
+
+    def dequeue(self):
+        """
+        弹出队头元素 - O(1)
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        _element = self.head.element
+
+        self.head = self.head.next
+        self.size -= 1
+
+        if self.is_empty():
+            self.tail = None
+
+        return _element
+
+    def enqueue(self, element: Any):
+        """
+        元素入队 - O(1)
+        :param element: 元素
+        :return:
+        """
+
+        _node = Node(element, None)
+        if self.is_empty():
+            self.head = _node
+        else:
+            self.tail.next = _node
+
+        self.tail = _node
+        self.size += 1
 
 
 class ArrayDeque(object):
@@ -233,6 +302,149 @@ class ArrayDeque(object):
             _walk_index = (1 + _walk_index) % len(_data)
 
         self.__front = 0
+
+
+class LinkDeque(DLink):
+    """
+    采用双向链表实现的双端队列
+    """
+
+    def first(self):
+        """
+        获取第一个节点 - O(1)
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        return self.header.next.element
+
+    def last(self):
+        """
+        获取最后一个节点 - O(1)
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        return self.trailer.prev.element
+
+    def insert_first(self, element: Any):
+        """
+        从表头插入元素 - O(1)
+        :param element: 元素
+        :return:
+        """
+
+        return self.insert_between(element, self.header, self.header.next)
+
+    def insert_last(self, element: Any):
+        """
+        从表尾插入元素 - O(1)
+        :param element: 元素
+        :return:
+        """
+
+        return self.insert_between(element, self.trailer.prev, self.trailer)
+
+    def delete_first(self):
+        """
+        删除队(表)头元素 - O(1)
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        return self.delete_node(self.header.next)
+
+    def delete_last(self):
+        """
+        删除队(表)尾元素 - O(1)
+        :return:
+        """
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        return self.delete_node(self.trailer.prev)
+
+
+class CircularQueue(object):
+    """
+    使用循环链表实现的循环队列
+    """
+
+    def __init__(self):
+        self.tail = None  # 队尾
+        self.size = 0  # 队长
+
+    def __len__(self) -> int:
+        return self.size
+
+    def is_empty(self) -> bool:
+        """
+        判断是否为空队
+        :return:
+        """
+
+        return self.size == 0
+
+    def first(self):
+        """
+        获取队头元素
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        return self.tail.next.element
+
+    def dequeue(self):
+        """
+        弹出队头元素
+        :return:
+        """
+
+        if self.is_empty():
+            raise LinkEmpty('queue is empty!')
+
+        head = self.tail.next
+        if self.size == 1:
+            self.tail = None
+        else:
+            self.tail.next = head.next
+
+        self.size -= 1
+        return head.element
+
+    def enqueue(self, element: Any):
+        """
+        元素入队 - O(1)
+        :param element: 元素
+        :return:
+        """
+
+        _node = Node(element, None)
+        if self.is_empty():
+            _node.next = _node
+        else:
+            _node.next = self.tail.next
+            self.tail.next = _node
+
+        self.tail = _node
+        self.size += 1
+
+    def rotate(self):
+        """
+        元素位置轮换 - O(1)
+        :return:
+        """
+
+        if self.size > 0:
+            self.tail = self.tail.next
 
 
 class PriorityQueueBase(object, metaclass=ABCMeta):
