@@ -1,6 +1,6 @@
 ## Something about Coding - 关于编程的一些小玩意
 ### Data Structure - 数据结构
-* [动态数组](DataStructure/DynamicArray/动态(自动拓展)数组.md)
+* [动态数组](DataStructure/DynamicArray/动态数组.md)
 * [链表](DataStructure/Link/链表.md)
 * [栈](DataStructure/Stack/栈LIFO.md)
 * [队列, 双端队列, 优先级队列](DataStructure/Queue/队列.md)
