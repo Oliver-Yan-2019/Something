@@ -47,7 +47,7 @@ class Node(object):
         self.next = next_
 
     def __str__(self):
-        return f'<Node: element: {self.element}, next={self.next.element if self.next else None}>'
+        return f'{self.element}'
 
     __repr__ = __str__
 
