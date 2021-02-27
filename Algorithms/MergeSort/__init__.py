@@ -1,5 +1,5 @@
 from typing import List
-from DataStructure.Link import LinkQueue
+from DataStructure.Queue import LinkQueue
 import math
 
 
