@@ -1,7 +1,3 @@
-"""
-树
-"""
-
 from abc import ABCMeta, abstractmethod
 
 
@@ -157,10 +153,10 @@ class BinaryTree(Tree, metaclass=ABCMeta):
     """
 
     def positions(self):
-        return self.inorder()  # 中序遍历
+        # return self.inorder()  # 中序遍历
         # return self.preorder()  # 先序遍历
         # return self.postorder()  # 后序遍历
-        # return self.breadth_first()  # 广度优先遍历
+        return self.breadth_first()  # 广度优先遍历
 
     def inorder(self):
         if not self.is_empty():
@@ -512,6 +508,8 @@ class ExpressionTree(LinkBinaryTree):
 
 
 if __name__ == '__main__':
+    import pdb; pdb.set_trace()  # breakpoint 9460a5af //
+    
     # 打印目录缩进
     def preorder_indent(tree, position, depth):
         print(2 * depth * ' ' + str(position.element()))
