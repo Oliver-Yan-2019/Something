@@ -9,4 +9,5 @@
 * [函数标注](https://docs.python.org/zh-cn/3/glossary.html#term-function-annotation)
 * 二进制文件的例子包括以二进制模式('rb', 'wb' or 'rb+')打开的文件, `sys.stdin.buffer`, `sys.stdout.buffer` 以及 `io.BytesIO` 和 `gzip.GzipFile` 的实例.
 * 字典的键可以是任何具有 `__hash__()` 和 `__eq__()` 方法的对象
-* 
+* super和父类没有实质性的关联.  
+  super(cls, inst)获得的是cls在inst的MRO列表中下一个类.  
