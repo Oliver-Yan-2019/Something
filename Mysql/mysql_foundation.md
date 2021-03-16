@@ -80,6 +80,20 @@
     - 提交事务并自动启动下一个事务: `commit work and chain`.
     - 监控`information_schema.innodb_trx`: 设置长事务阈值.
     - 马上启动一个事务: `start transaction with consistent snapshot`.
+4. 视图.
+    - 两个概念:
+        - 用查询语句定义的虚拟表(view, `create view …`.
+        - InnoDB实现MVCC时的一致性读视图(consistent read view),  
+          用于支持RC和RR隔离级别的实现.
+    - "快照" 在MVCC里是怎么工作的？
+        - 可重复读隔离级别下，全库快照秒级实现.
+        - 先开始的事务获取的事务ID总是小于后开启的事务ID, 只读事务的ID是一个很大的数,  
+          非只读事务的ID是一个从1自增的数值.
+        - 更新数据的事务才会生成对应的数据版本, 版本中包含本次数据的值, 事务id,  
+          还有一个引用(指向上一个数据版本).
+        - 数据表中的一行记录, 其实可能由多个版本, 每个版本有自己的事务id.
+        - undo log.
+        - InnoDB利用了 "所有数据都有多个版本" 的这个特性, 实现了 "秒级创建快照" 的能力.
 
 ### 索引
 
