@@ -1,4 +1,3 @@
-## Something about Coding - 关于编程的一些小玩意
 ### Data Structure - 数据结构
 * [动态数组](DataStructure/DynamicArray/动态数组.md)
 * [链表](DataStructure/Link/链表.md)
