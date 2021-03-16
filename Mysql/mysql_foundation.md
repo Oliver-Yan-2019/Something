@@ -2,50 +2,51 @@
 
 ![逻辑架构图](/Mysql/逻辑架构图.png)
 
-1. 连接器
+1. 连接器.
     - 作用: 建立连接、获取权限、维持和管理连接.
-    - 建立长连接之后, 内存飙升, 处理方法:
+    - 问题: 建立长连接之后, 内存飙升.
+    - 处理方法:
         - 定期断开连接: 使用一段时间或程序判断执行过一个占用内存的大查询之后,  
-          断开连接, 之后查询再进行重连
-        - 5.7或以上版本可以执行mysql_reset_connection重新初始化连接资源
-2. 查询缓存(8.0取消缓存)
-3. 分析器
-    - 词法分析 -> 语法分析
-4. 优化器
+          断开连接, 之后查询再进行重连.
+        - 5.7或以上版本可以执行`mysql_reset_connection`重新初始化连接资源.
+2. 查询缓存(8.0取消缓存).
+3. 分析器: 词法分析 -> 语法分析.
+4. 优化器.
     - 优化原则: 尽可能扫描少的数据库行纪录.
     - 有多个索引的时候决定使用哪个索引; 有多表关联的时候决定各个表的连接顺序.
+    - 一个例子:
         - `select * from t1 join t2 using(ID) where t1.c=10 and t2.d=20;`
         - 如果连接字段没有索引的话, 先将t1表的c=10的行和t2表d=20的进行全表扫描,  
           得到小的数据放入到join_buffer中, 然后全表扫描另外一张表,  
           将其和内存中的行进行匹配.
-5. 执行器
+5. 执行器.
     - 命中缓存后、分析后和执行前都会权限校验.
     - 引擎扫描行数跟rows_examined并不是完全相同的.
 
 ### 日志
 
-1. redo log
+1. redo log.
     - WAL(Write-Ahead Logging): 先写日志, 再写磁盘.
     - innoDB的redo log是固定大小循环写的, 是一种物理日志,  
       可以避免数据库异常重启丢失数据, crash-safe(MyISAM没有这个能力).
-2. binlog
+2. binlog.
     - server层的binlog归档日志, 是追加写的, 是一种逻辑日志.
     - redo log的prepare和commit阶段成为"两阶段提交".
-    - innodb_flush_log_at_trx_commit和sync_binlog建议设置为1, 持久化到磁盘.
+    - `innodb_flush_log_at_trx_commit`和`sync_binlog`建议设置为1, 持久化到磁盘.
     - 两种模式:
         - statement格式记sql.
         - row格式记录行内容, 记两条, 更新前和更新后都有.
-3. 区别
+3. 区别.
     - redo log是InnoDB引擎特有的; binlog是MySQL的Server层实现的.
     - redo log是物理日志; binlog是逻辑日志.
     - redo log是循环写, 空间固定会用完; binlog 是可以追加写入的.
-4. 两阶段提交
+4. 两阶段提交.
     - redo log负责事务, binlog负责归档恢复.
 
 ### 事务隔离
 
-1. MyISAM不支持事务
-2. 隔离性与隔离级别
+1. MyISAM不支持事务.
+2. 隔离性与隔离级别.
     - ACID(Atomicity, Consistency, Isolation, Durability),  
       即原子性/一致性/隔离性/持久性.
     - 脏读: 读到其他事务未提交的数据;  
@@ -64,59 +65,63 @@
         - RC: 每句sql执行前建立视图.
         - RR: 事务启动时建立视图.
         - Serial: 加锁.
-    - transaction-isolation参数.
+    - `transaction-isolation`参数.
     - 回滚日志.
     - 不要使用长事务:
         - 系统会保留很老的视图, 在事务提交前会产生很多回滚日志, 占用存储空间.
         - 占用锁资源.
-3. 事务的启动方式:
-    - begin或start transaction   
-      commit  
-      rollback
-    - set autocommit=0: 将线程的自动提交关掉 commit  
-      rollback
-    - commit work and chain: 提交事务并自动启动下一个事务.
-    - 监控information_schema.innodb_trx: 设置长事务阈值.
+3. 事务的启动方式.
+    - 启动: `begin`或`start transaction`.   
+      提交: `commit`.  
+      回滚: `rollback`.
+    - 将线程的自动提交关掉: `set autocommit=0`.  
+      提交: `commit`.  
+      回滚: `rollback`.
+    - 提交事务并自动启动下一个事务: `commit work and chain`.
+    - 监控`information_schema.innodb_trx`: 设置长事务阈值.
+    - 马上启动一个事务: `start transaction with consistent snapshot`.
 
 ### 索引
 
-1. 常见模型
+1. 常见模型.
     - 哈希表这种结构适用于只有等值查询的场景: 精确查询O(1), 范围查询不乐观.
     - 有序数组在等值查询和范围查询场景中的性能就都非常优秀:  
       精确查询和范围查询O(log n), 更新麻烦, 只适用于静态存储引擎.
     - 二叉树查询和更新都是O(log N).
-2. innoDB索引模型
+2. innoDB索引模型.
     - innoDB使用了B+树, 每个索引对应一棵B+树.
     - 主键索引/聚簇索引: (key: 主键的值, value: 叶子节点整行数据).  
       非主键索引/二级索引: (key: 索引列的值, value: 叶子结点主键的值).
     - 基于非主键索引的查询需要多扫描一棵索引树(回表).
-3. 索引维护
+3. 索引维护.
     - 页分裂: 影响性能和空间利用率.  
       页合并.
-    - NOT NULL PRIMARY KEY AUTO_INCREMENT:
+    - `NOT NULL PRIMARY KEY AUTO_INCREMENT`:
         - 不会触发页分裂(主键字段需要保证有序插入).
         - 主键长度尽量小, 这样普通索引叶子节点占用空间也就越小.
-4. 覆盖索引
+4. 覆盖索引.
     - 可以减少树的搜索次数, 显著提升查询性能.
-5. 最左前缀原则
+5. 最左前缀原则.
     - 可以是联合索引的最左N个字, 也可以是字符串索引的最左M个字符.  
       如果通过调整顺序, 可以少维护一个索引, 那么这个顺序往往就是需要优先考虑采用的.  
       还要考虑索引占用空间.
-6. 索引下推(5.6之后)
+6. 索引下推(5.6之后).
     - 索引遍历过程中, 对索引中包含的字段先做判断, 过滤掉不满足条件的记录, 减少回表次数.
-    - 重建索引: 省空间.  
+    - 重建索引: 省空间.
+      ```mysql
       alter table T drop index k;  
       alter table T add index(k);  
-      // 重建主键是不合理的, 会重建表, 用alter table T engine=InnoDB替代  
+      # 重建主键是不合理的, 会重建表, 用alter table T engine=InnoDB替代  
       alter table T drop primary key;  
       alter table T add primary key(id);
+      ```
 
 ### 锁
 
-1. 设计初衷
+1. 设计初衷.
     - 解决并发的问题(作为多用户共享的资源, 当出现并发访问的时候,  
-      数据库需要合理的控制资源的访问规则). 
-2. 全局锁
+      数据库需要合理的控制资源的访问规则).
+2. 全局锁.
     - 对整个数据库实例加锁.
     - `Flush tables with read lock` (FTWRL), `unlock tables`.
     - 阻塞: 数据更新(增删改), 数据定义(建表, 修改表结构)和更新类事务的提交语句.
@@ -138,8 +143,8 @@
     - 读锁之间不互斥, 可以有多个线程同时对一张表增删改查.
     - 读写锁之间, 写锁之间是互斥的, 用来保证变更表结构操作的安全性.
     - 事务中的MDL锁, 在语句执行开始时申请, 但是语句结束后并不会马上释放,  
-      而会等到整个事务提交后再释放.  
-    - `ALTER TABLE tbl_name NOWAIT add column ...`  
+      而会等到整个事务提交后再释放.
+    - `ALTER TABLE tbl_name NOWAIT add column ...`
     - `ALTER TABLE tbl_name WAIT N add column ...`
 5. 行锁(两阶段锁协议):
     - 在InnoDB事务中, 行锁是在需要的时候才加上的, 但并不是不需要了就立刻释放,  
@@ -149,9 +154,9 @@
         - 当并发系统中不同线程出现循环资源依赖, 涉及的线程都在  
           等待别的线程释放资源时, 就会导致这几个线程都进入无限等待的状态, 称为死锁.
         - 两种解决策略:
-            - 直接进入等待, 直到超时, 参数: innodb_lock_wait_timeout.
+            - 直接进入等待, 直到超时, 参数: `innodb_lock_wait_timeout`.
             - 发起死锁检测, 发现死锁后, 主动回滚死锁链条中的某一个事务,  
-              让其他事务得以继续执行, 参数: innodb_deadlock_detect
+              让其他事务得以继续执行, 参数: `innodb_deadlock_detect`.
         - 怎么解决由这种热点行更新导致的性能问题呢:
             - 如果能确保某个业务一定不会出现死锁, 可以临时把死锁检测关掉(风险).
             - 控制并发度(不太实际).
