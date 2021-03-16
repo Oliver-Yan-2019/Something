@@ -43,7 +43,7 @@
 * [模版方法模式](DesignPattern/TemplateMethodPattern/模版方法模式.md)
 
 ### MySQL
-* [MySQL](Mysql/mysql.md)
+* [MySQL基础](Mysql/mysql_foundation.md)
 
 ###  Others - 其他
 * [自定义Range](Others/CustomerRange/__init__.py)
