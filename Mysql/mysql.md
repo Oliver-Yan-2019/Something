@@ -3,6 +3,7 @@
       断开连接, 之后查询再进行重连
     - 5.7或以上版本可以执行mysql_reset_connection重新初始化连接资源
 
+---
 
 2. WAL: 先写日志, 再写磁盘
     - innoDB的redo log是固定大小循环写的, 是一种物理日志,  
@@ -16,6 +17,7 @@
         - statement格式记sql,
         - row格式记录行内容, 记两条, 更新前和更新后都有
 
+---
 
 3. MyISAM不支持事务
     - ACID(Atomicity, Consistency, Isolation, Durability),  
@@ -52,6 +54,7 @@
         - commit work and chain: 提交事务并自动启动下一个事务
     - 监控information_schema.innodb_trx: 设置长事务阈值
 
+---
 
 4. 索引
     - 哈希表这种结构适用于只有等值查询的场景:  
